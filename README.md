@@ -1,4 +1,8 @@
-online_course_registration
-==========================
+# Online Blog to aid fluent communication between Teachers and Students in tertiary institutions (Developed using Symfony)
+An online communication model to aid student's fluent learning in institutions
 
-A Symfony project created on August 4, 2017, 12:06 am.
+## Instructions
+Create a database with name of your choice
+Update the parameter.yml file in the app/config folder
+Run php bin/console doctrine:schema:update --force
+Create a user in your database with role titled "ROLE_ADMIN"
