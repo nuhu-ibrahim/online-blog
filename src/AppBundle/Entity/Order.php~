@@ -1,0 +1,303 @@
+<?php
+// src/AppBundle/Entity/Order.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="ordertbl")
+*/
+class Order
+
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $order_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    * @Assert\NotBlank(groups={"add","edit"},message = "Choose the order category")
+    */
+    private $category_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"add","edit"}, message = "Provide the order title")
+    */
+    private $order_title;
+    
+    /**
+    * @ORM\Column(type="text")
+    * @Assert\NotBlank(groups={"add","edit"},message = "Provide the order description")
+    */
+    private $order_desc;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"add"},message = "Provide the image of the order.")
+    * @Assert\Image(groups={"add", "edit"},minWidth=700, maxWidth=900, minHeight=250, maxHeight=300)
+    */
+    private $order_image;
+   
+    /**
+    * @ORM\Column(type="integer")
+    * @Assert\NotBlank(groups={"add","edit"},message = "Provide the quantity of the food items.")
+    * @Assert\GreaterThan(0, message = "Input value should be numeric and greater than 0.",groups={"add","edit"})
+    */
+    private $order_quantity;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"},message = "Choose the order status")
+    */
+    private $order_status;
+    
+    /**
+    @ORM\Column(type="string", length=100)
+    */
+    private $category_title;
+    
+    /**
+    * @ORM\Column(type="decimal")
+    * @Assert\NotBlank(groups={"add","edit"},message = "Provide the price of the order.")
+    * @Assert\GreaterThan(0, message = "Input value should be numeric and greater than 0.", groups={"add","edit"})
+    */
+    private $order_price;
+    
+    /**
+    * @ORM\Column(type="date")
+    */
+    private $order_date;
+    
+    
+    /**
+     * Get orderId
+     *
+     * @return integer
+     */
+    public function getOrderId()
+    {
+        return $this->order_id;
+    }
+
+    /**
+     * Set categoryId
+     *
+     * @param integer $categoryId
+     *
+     * @return Order
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryId
+     *
+     * @return integer
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set orderTitle
+     *
+     * @param string $orderTitle
+     *
+     * @return Order
+     */
+    public function setOrderTitle($orderTitle)
+    {
+        $this->order_title = $orderTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get orderTitle
+     *
+     * @return string
+     */
+    public function getOrderTitle()
+    {
+        return $this->order_title;
+    }
+
+    /**
+     * Set orderDesc
+     *
+     * @param string $orderDesc
+     *
+     * @return Order
+     */
+    public function setOrderDesc($orderDesc)
+    {
+        $this->order_desc = $orderDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get orderDesc
+     *
+     * @return string
+     */
+    public function getOrderDesc()
+    {
+        return $this->order_desc;
+    }
+
+    /**
+     * Set orderQuantity
+     *
+     * @param string $orderQuantity
+     *
+     * @return Order
+     */
+    public function setOrderQuantity($orderQuantity)
+    {
+        $this->order_quantity = $orderQuantity;
+
+        return $this;
+    }
+
+    /**
+     * Get orderQuantity
+     *
+     * @return string
+     */
+    public function getOrderQuantity()
+    {
+        return $this->order_quantity;
+    }
+
+    /**
+     * Set orderImage
+     *
+     * @param string $orderImage
+     *
+     * @return Order
+     */
+    public function setOrderImage($orderImage)
+    {
+        $this->order_image = $orderImage;
+
+        return $this;
+    }
+
+    /**
+     * Get orderImage
+     *
+     * @return string
+     */
+    public function getOrderImage()
+    {
+        return $this->order_image;
+    }
+
+
+    /**
+     * Set orderStatus
+     *
+     * @param string $orderStatus
+     *
+     * @return Order
+     */
+    public function setOrderStatus($orderStatus)
+    {
+        $this->order_status = $orderStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get orderStatus
+     *
+     * @return string
+     */
+    public function getOrderStatus()
+    {
+        return $this->order_status;
+    }
+
+    /**
+     * Set orderDate
+     *
+     * @param \DateTime $orderDate
+     *
+     * @return Order
+     */
+    public function setOrderDate($orderDate)
+    {
+        $this->order_date = $orderDate;
+
+        return $this;
+    }
+
+    /**
+     * Get orderDate
+     *
+     * @return \DateTime
+     */
+    public function getOrderDate()
+    {
+        return $this->order_date;
+    }
+
+    /**
+     * Set categoryTitle
+     *
+     * @param string $categoryTitle
+     *
+     * @return Order
+     */
+    public function setCategoryTitle($categoryTitle)
+    {
+        $this->category_title = $categoryTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryTitle
+     *
+     * @return string
+     */
+    public function getCategoryTitle()
+    {
+        return $this->category_title;
+    }
+
+    /**
+     * Set orderPrice
+     *
+     * @param string $orderPrice
+     *
+     * @return Order
+     */
+    public function setOrderPrice($orderPrice)
+    {
+        $this->order_price = $orderPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get orderPrice
+     *
+     * @return string
+     */
+    public function getOrderPrice()
+    {
+        return $this->order_price;
+    }
+}

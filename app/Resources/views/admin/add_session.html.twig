@@ -1,0 +1,71 @@
+{% extends 'admin.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ page_header }}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row"> 
+        <div class="col-md-7"> 
+            <h2>Create Session</h2>
+            {% if create_msg %}
+                    <div class="alert alert-info" role="alert">
+                        {{ create_msg }}
+                    </div>
+            {% endif%}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'action' : url("add_sessions")}}) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(form) }}
+                </div>
+            {% elseif errors%}
+                {%  for error in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Session Title</label>
+                {% if form_errors(form.session_title) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.session_title) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.session_title, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }} 
+            {{ form_widget(form.update, {'attr': {'style' : 'visibility:hidden'}}) }}
+        {{ form_end(form) }}
+        </div>
+        
+        <div class="col-md-5">
+            {% if sessions %}
+                <table class="table table-striped">
+                    <tr>
+                            <th>#</th>
+                            <th>Session Title</th>
+                            <th>Action</th>
+                    <tr>
+                        {% set num = 0 %}
+                        {% for session in sessions %}
+                        <tr>
+                            {% set num=num+1  %}
+                            <td>{{ num }}</td>
+                            <td>{{session.getSessionTitle}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{url("edit_sessions", {'edit': session.getSessionId })}}">Edit</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            {%else%}
+                <h1 align="center">No sessions yet!.</h1>
+            {% endif %}
+        </div>
+    </div>   
+{% endblock %}

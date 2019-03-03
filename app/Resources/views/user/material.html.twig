@@ -1,0 +1,62 @@
+{% extends 'user.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div style = "text-align:center;" class="col-lg-12">
+            <h1 class="page-header">
+                {{ page_header }}
+            </h1>
+        </div>
+    </div>
+            
+    <div class="row"> 
+        <div class="col-lg-8  col-lg-offset-2">
+            <div style = "text-align:center;" class="panel panel-green">
+                <div class="panel-heading">
+                    Course Information
+                </div>
+                <div class="panel-body">
+                    <h4 style='color: blue;'>Course Code: </h4>{{cor.getCourseCode}}
+                    <h4 style='color: blue;'>Course Title: </h4>{{cor.getCourseTitle}}
+                    <h4 style='color: blue;'>Course Level: </h4>{{cor.getCourseLevel}}
+                </div>
+                <div class="panel-footer">
+                    Available materials can be found below!
+                </div>
+            </div>
+        </div>
+    </div> 
+    <hr>
+    {% if attachments %}
+        {% for attach in attachments %}
+            <div class="row"> 
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Lecture
+                        </div>
+                        <div class="panel-body">
+                            <p>{{attach.getAttachmentDesc}}</p>
+                        </div>
+                        <div class="panel-footer">
+                            <a href='{{asset(['uploads/',attach.getAttachment]|join)}}'>Click here to download!</a>
+                        </div>
+                        {% for group in groups %}
+                            {% if group.getAttachmentId == attach.getAttachmentId %}
+                                <div class="panel-footer">
+                                    <a href='{{url("lecture_discussion", {'group_id': group.getGroupId })}}'>Enter discussion room!</a>
+                                </div>
+                            {% endif %}
+                        {% endfor%}
+                        
+                    </div>
+                </div>
+            </div>  
+        {% endfor %}
+    {% else %}
+        <div class="row"> 
+            <div style ="text-align:center;" class="col-lg-8 col-lg-offset-2">
+                <h2>No available lecture materials for {{cor.getCourseCode}} yet!.</h2>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

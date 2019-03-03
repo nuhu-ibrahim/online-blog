@@ -1,0 +1,110 @@
+<?php
+// src/AppBundle/Entity/Product.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="admissionlist")
+*/
+class AdmissionList
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $id;
+    
+    /**
+    * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(groups={"val2", "strict3"},message="Provide Student's Application Number")
+    */
+    private $app_no;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"reg", "strict","strict2", "strict3"}, message = "Choose your programme of study.")
+     * 
+    */
+    private $programme;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"reg", "strict", "strict2", "strict3"}, message = "Choose your course of study.")
+    */
+    private $course;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"reg", "strict", "strict2", "strict3"}, message="Provide your surname.")
+    */
+    private $surname;
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+    */
+    private $othername;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"reg", "strict","strict2", "strict3"}, message = "Provide your firstname.")
+    */
+    private $firstname;
+    
+    
+    /**
+    * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(groups={"reg", "login", "strict", "val", "strict3"}, message = "Provide your email address.")
+     * @Assert\Email(groups={"reg", "login", "strict","strict2", "val", "strict3"}, message = "Provide a valid email address.")
+    */
+    private $email;
+    
+    
+    /**
+    * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"}, message = "Provide your gender.")
+    */
+    private $sex;
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"reg", "strict","strict2", "strict3"} , message = "Choose your state of origin.")
+    */
+    private $state;
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"},message = "Provide your marital status.")
+    */
+    private $mstatus;
+
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"},message = "Provide your Institution Name.")
+    */
+    private $inst_name;
+    
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"},message = "Provide your Institution Registration Number.")
+    */
+    private $reg_no;
+    
+   
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"},message = "Provide your Qualification.")
+    */
+    private $qual;
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(groups={"strict","strict2", "strict3"},message = "Provide your Field of Study.")
+    */
+    private $field;
+    
+}

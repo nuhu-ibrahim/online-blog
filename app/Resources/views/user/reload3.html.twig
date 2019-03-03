@@ -1,0 +1,67 @@
+<ul class="messages">
+    {% if messages %}
+        {% for message in messages %}
+            {% if (student != null and message.getMessageSenderId == student.getStudentId and message.getSenderType == 1) or (lecturer != null and message.getMessageSenderId == lecturer.getLecturerId and message.getSenderType == 2) %}
+                <li class="message left appeared">
+                    <!--put image here-->
+                    {% if user.role == "ROLE_STUDENT" %}
+                        <div class="avatar">
+                            <img title="You, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",student.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                        </div>
+
+                        <div class="text_wrapper">
+                            <div class="text">
+                                {{message.getMessageContent}}
+                            </div>
+                        </div>
+                    {% elseif user.role == "ROLE_LECTURER" %}
+                        <div class="avatar">
+                            <img title="You, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",lecturer.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                        </div>
+
+                        <div class="text_wrapper">
+                            <div class="text">
+                                {{message.getMessageContent}}
+                            </div>
+                        </div>
+                    {% endif%}
+
+                </li>
+            {% elseif message.getSenderType == 1 %}
+                <li class="message right appeared">
+                    <!--put image here-->
+                    {% for stu in students %}
+                        {% if message.getMessageSenderId == stu.getStudentId %}
+                            <div class="avatar">
+                                <img title="{{stu.getFirstname}} {{stu.getSurname}}, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",stu.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="text_wrapper">
+                        <div class="text">
+                            {{message.getMessageContent}}
+                        </div>
+                    </div>
+                </li>
+            {% elseif message.getSenderType == 2 %}
+                <li class="message right appeared">
+                    <!--put image here-->
+                    {% for lecturer in lecturers %}
+                        {% if message.getMessageSenderId == lecturer.getLecturerId %}
+                            <div class="avatar">
+                                <img title="Lecturer {{lecturer.getFirstname}} {{lecturer.getSurname}}, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",lecturer.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="text_wrapper">
+                        <div class="text">
+                            {{message.getMessageContent}}
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {%else%}
+        <li><h2 align='center'>Your Conversations will appear here.</h2><li>
+    {% endif %}
+</ul>

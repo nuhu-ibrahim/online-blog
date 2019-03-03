@@ -1,0 +1,38 @@
+<ul class="messages">
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.getMessageSenderId == student.getStudentId %}
+                <li class="message left appeared">
+                    <!--put image here-->
+                    <div class="avatar">
+                        <img title="You, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",student.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                    </div>
+
+                    <div class="text_wrapper">
+                        <div class="text">
+                            {{message.getMessageContent}}
+                        </div>
+                    </div>
+                </li>
+            {% else %}
+                <li class="message right appeared">
+                    <!--put image here-->
+                    {% for stu in students %}
+                        {% if message.getMessageSenderId == stu.getStudentId %}
+                            <div class="avatar">
+                                <img title="{{stu.getFirstname}} {{stu.getSurname}}, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",stu.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="text_wrapper">
+                        <div class="text">
+                            {{message.getMessageContent}}
+                        </div>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {%else%}
+        <li><h2 align='center'>Your Conversations will appear here.</h2><li>
+    {% endif %}
+</ul>

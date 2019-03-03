@@ -1,0 +1,163 @@
+<?php
+// src/AppBundle/Entity/Product.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="admintbl")
+*/
+class Admin
+{
+    /**
+    * @ORM\Column(type="string")
+    * @ORM\Id
+     * @Assert\NotBlank()
+    */
+    private $uname;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+    */
+    private $fname;
+   
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+    */
+    private $lastname;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+    */
+    private $othername;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
+    */
+    private $password;    
+
+    /**
+     * Set uname
+     *
+     * @param string $uname
+     *
+     * @return Admin
+     */
+    public function setUname($uname)
+    {
+        $this->uname = $uname;
+
+        return $this;
+    }
+
+    /**
+     * Get uname
+     *
+     * @return string
+     */
+    public function getUname()
+    {
+        return $this->uname;
+    }
+
+    /**
+     * Set fname
+     *
+     * @param string $fname
+     *
+     * @return Admin
+     */
+    public function setFname($fname)
+    {
+        $this->fname = $fname;
+
+        return $this;
+    }
+
+    /**
+     * Get fname
+     *
+     * @return string
+     */
+    public function getFname()
+    {
+        return $this->fname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return Admin
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Set othername
+     *
+     * @param string $othername
+     *
+     * @return Admin
+     */
+    public function setOthername($othername)
+    {
+        $this->othername = $othername;
+
+        return $this;
+    }
+
+    /**
+     * Get othername
+     *
+     * @return string
+     */
+    public function getOthername()
+    {
+        return $this->othername;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Admin
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+}

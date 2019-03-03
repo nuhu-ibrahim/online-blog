@@ -1,0 +1,194 @@
+{% extends 'admin.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ page_header }}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row"> 
+        <div class="col-md-6"> 
+            <h2>Edit Student</h2>
+            {% if update_msg %}
+                    <div class="alert alert-info" role="alert">
+                        {{ update_msg }}
+                    </div>
+            {% endif%}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(form) }}
+                </div>
+            {% elseif errors%}
+                {%  for error in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Registration Number</label>
+                {% if form_errors(form.reg_no) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.reg_no) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.reg_no, {'attr': {'class': 'form-control', 'readonly': 'true'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Session</label>
+                {% if form_errors(form.session_id) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.session_id) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.session_id, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Surname</label>
+                {% if form_errors(form.surname) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.surname) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Othername</label>
+                {% if form_errors(form.othername) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.othername) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.othername, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Firstname</label>
+                {% if form_errors(form.firstname) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.firstname) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Mobile Number</label>
+                {% if form_errors(form.mobile) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.mobile) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.mobile, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                {% if form_errors(form.email) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.email) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.email, {'attr': {'class':'form-control', 'readonly':'true'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Gender</label>
+                {% if form_errors(form.sex) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.sex) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.sex, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Marital Status</label>
+                {% if form_errors(form.mstatus) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.mstatus) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.mstatus, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Residential Address</label>
+                {% if form_errors(form.address) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.address) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.address, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Passport</label>
+                {% if form_errors(form.passport) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.passport) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.passport) }}  
+            </div>
+            {{ form_widget(form.update, {'attr': {'class': 'btn btn-primary'}}) }}  
+            {{ form_widget(form.submit, {'attr': {'style' : 'visibility:hidden'}}) }}
+        {{ form_end(form) }}
+        </div>
+        
+        <div class="col-md-6">
+            <form method='POST' action=''>
+                <div class="form-group">
+                    <label>Search Student Session</label>
+                    <select name='search' class='form-control'>
+                        <option value=''>All Students</option>
+                        {%for session in sessions %}
+                            <option value='{{session.getSessionTitle}}'>{{session.getSessionTitle}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" name="submit" value="Search Student" class='btn btn-primary'> 
+            </form>
+            {% if students %}
+                <br>
+                <h4>{{search}} Students</h4>
+            
+                <table class="table table-striped">
+                    <tr>
+                            <th>#</th>
+                            <th>Registration Number</th>
+                            <th>Passport</th>
+                            <th>Session</th>
+                            <th>Full name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Action</th>
+                    <tr>
+                        {% set num = 0 %}
+                        {% for student in students %}
+                        <tr>
+                            {% set num=num+1  %}
+                            <td>{{ num }}</td>
+                            <td>{{student.getRegNo}}</td>
+                            <td><img src='{{asset(["passports/",student.getPassport]|join)}}' class='img-responsive' height='200' width='200'></td>
+                            {% for session in sessions %}
+                                {% if session.getSessionId == student.getSessionId %}
+                                    <td>{{session.getSessionTitle}}</td>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <td>{{student.getFirstname}} {% if student.Othername %}{{student.getOthername}},{% endif %} {{student.getSurname}}</td>
+                            <td>{{student.getMobile}}</td>
+                            <td>{{student.getEmail}}</td>
+                            <td>{{student.getSex}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{url("edit_students", {'edit': student.getStudentId })}}">Edit</a>
+                                <a class="btn btn-danger" onclick='goto3("{{url("delete_students", {'delete': student.getStudentId })}}")' id='delete_category'  href='#'>Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            {%else%}
+                <h1 align="center">No students yet!.</h1>
+            {% endif %}
+        </div>
+    </div>   
+{% endblock %}

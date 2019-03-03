@@ -1,0 +1,275 @@
+<?php
+// src/AppBundle/Entity/Post.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="posttbl")
+*/
+class Post
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $post_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    * @Assert\NotBlank(groups={"add","edit"},message = "Choose the post category")
+    */
+    private $category_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"add","edit"}, message = "Provide the post title")
+    */
+    private $post_title;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"add","edit"},message = "Provide the post description")
+    */
+    private $post_desc;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(groups={"add"},message = "Provide the image of the post.")
+    * @Assert\Image(groups={"add", "edit"},minWidth=700, maxWidth=900, minHeight=250, maxHeight=300)
+    */
+    private $post_image;
+   
+    /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $post_author;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"},message = "Provide the content of the post.")
+    */
+    private $post_content;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"},message = "Choose the post status")
+    */
+    private $post_status;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $category_title;
+    
+    /**
+    * @ORM\Column(type="datetime")
+    */
+    private $post_date;
+    
+    
+
+    /**
+     * Get postId
+     *
+     * @return integer
+     */
+    public function getPostId()
+    {
+        return $this->post_id;
+    }
+
+    /**
+     * Set categoryId
+     *
+     * @param integer $categoryId
+     *
+     * @return Post
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryId
+     *
+     * @return integer
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set postTitle
+     *
+     * @param string $postTitle
+     *
+     * @return Post
+     */
+    public function setPostTitle($postTitle)
+    {
+        $this->post_title = $postTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get postTitle
+     *
+     * @return string
+     */
+    public function getPostTitle()
+    {
+        return $this->post_title;
+    }
+
+    /**
+     * Set postDesc
+     *
+     * @param string $postDesc
+     *
+     * @return Post
+     */
+    public function setPostDesc($postDesc)
+    {
+        $this->post_desc = $postDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get postDesc
+     *
+     * @return string
+     */
+    public function getPostDesc()
+    {
+        return $this->post_desc;
+    }
+
+    /**
+     * Set postImage
+     *
+     * @param string $postImage
+     *
+     * @return Post
+     */
+    public function setPostImage($postImage)
+    {
+        $this->post_image = $postImage;
+
+        return $this;
+    }
+
+    /**
+     * Get postImage
+     *
+     * @return string
+     */
+    public function getPostImage()
+    {
+        return $this->post_image;
+    }
+
+    /**
+     * Set postAuthor
+     *
+     * @param string $postAuthor
+     *
+     * @return Post
+     */
+    public function setPostAuthor($postAuthor)
+    {
+        $this->post_author = $postAuthor;
+
+        return $this;
+    }
+
+    /**
+     * Get postAuthor
+     *
+     * @return string
+     */
+    public function getPostAuthor()
+    {
+        return $this->post_author;
+    }
+
+    /**
+     * Set postContent
+     *
+     * @param string $postContent
+     *
+     * @return Post
+     */
+    public function setPostContent($postContent)
+    {
+        $this->post_content = $postContent;
+
+        return $this;
+    }
+
+    /**
+     * Get postContent
+     *
+     * @return string
+     */
+    public function getPostContent()
+    {
+        return $this->post_content;
+    }
+
+    /**
+     * Set postStatus
+     *
+     * @param string $postStatus
+     *
+     * @return Post
+     */
+    public function setPostStatus($postStatus)
+    {
+        $this->post_status = $postStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get postStatus
+     *
+     * @return string
+     */
+    public function getPostStatus()
+    {
+        return $this->post_status;
+    }
+
+    /**
+     * Set postDate
+     *
+     * @param \DateTime $postDate
+     *
+     * @return Post
+     */
+    public function setPostDate($postDate)
+    {
+        $this->post_date = $postDate;
+
+        return $this;
+    }
+
+    /**
+     * Get postDate
+     *
+     * @return \DateTime
+     */
+    public function getPostDate()
+    {
+        return $this->post_date;
+    }
+}

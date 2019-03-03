@@ -1,0 +1,337 @@
+<?php
+// src/AppBundle/Entity/Property.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="propertytbl")
+*/
+class Property
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $property_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    * @Assert\NotBlank(message = "Choose the property category")
+    */
+    private $category_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide a property title")
+    */
+    private $property_title;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide a property address")
+    */
+    private $property_address;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide a property description")
+    */
+    private $property_desc;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide the image of the property")
+    * @Assert\Image(minWidth=700, maxWidth=900, minHeight=250, maxHeight=300)
+    */
+    private $property_image;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide the cost of the property")
+    */
+    private $property_cost;
+    
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide the fullname of the property owner")
+    */
+    private $property_owner_full_name;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide the mobile number of the property owner")
+    */
+    private $property_owner_mobile;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide the email of the property owner")
+     * 
+    */
+    private $property_owner_email;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Choose the availability status")
+    */
+    private $property_available;
+    
+    /**
+    * @ORM\Column(type="date")
+    */
+    private $date_uploaded;
+
+    /**
+     * Get propertyId
+     *
+     * @return integer
+     */
+    public function getPropertyId()
+    {
+        return $this->property_id;
+    }
+
+    /**
+     * Set categoryId
+     *
+     * @param integer $categoryId
+     *
+     * @return Property
+     */
+    public function setCategoryId($categoryId)
+    {
+        $this->category_id = $categoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryId
+     *
+     * @return integer
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set propertyTitle
+     *
+     * @param string $propertyTitle
+     *
+     * @return Property
+     */
+    public function setPropertyTitle($propertyTitle)
+    {
+        $this->property_title = $propertyTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyTitle
+     *
+     * @return string
+     */
+    public function getPropertyTitle()
+    {
+        return $this->property_title;
+    }
+
+    /**
+     * Set propertyAddress
+     *
+     * @param string $propertyAddress
+     *
+     * @return Property
+     */
+    public function setPropertyAddress($propertyAddress)
+    {
+        $this->property_address = $propertyAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyAddress
+     *
+     * @return string
+     */
+    public function getPropertyAddress()
+    {
+        return $this->property_address;
+    }
+
+    /**
+     * Set propertyDesc
+     *
+     * @param string $propertyDesc
+     *
+     * @return Property
+     */
+    public function setPropertyDesc($propertyDesc)
+    {
+        $this->property_desc = $propertyDesc;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyDesc
+     *
+     * @return string
+     */
+    public function getPropertyDesc()
+    {
+        return $this->property_desc;
+    }
+
+    /**
+     * Set propertyImage
+     *
+     * @param string $propertyImage
+     *
+     * @return Property
+     */
+    public function setPropertyImage($propertyImage)
+    {
+        $this->property_image = $propertyImage;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyImage
+     *
+     * @return string
+     */
+    public function getPropertyImage()
+    {
+        return $this->property_image;
+    }
+
+    /**
+     * Set propertyCost
+     *
+     * @param string $propertyCost
+     *
+     * @return Property
+     */
+    public function setPropertyCost($propertyCost)
+    {
+        $this->property_cost = $propertyCost;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyCost
+     *
+     * @return string
+     */
+    public function getPropertyCost()
+    {
+        return $this->property_cost;
+    }
+
+    /**
+     * Set propertyOwnerFullName
+     *
+     * @param string $propertyOwnerFullName
+     *
+     * @return Property
+     */
+    public function setPropertyOwnerFullName($propertyOwnerFullName)
+    {
+        $this->property_owner_full_name = $propertyOwnerFullName;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyOwnerFullName
+     *
+     * @return string
+     */
+    public function getPropertyOwnerFullName()
+    {
+        return $this->property_owner_full_name;
+    }
+
+    /**
+     * Set propertyOwnerMobile
+     *
+     * @param string $propertyOwnerMobile
+     *
+     * @return Property
+     */
+    public function setPropertyOwnerMobile($propertyOwnerMobile)
+    {
+        $this->property_owner_mobile = $propertyOwnerMobile;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyOwnerMobile
+     *
+     * @return string
+     */
+    public function getPropertyOwnerMobile()
+    {
+        return $this->property_owner_mobile;
+    }
+
+    /**
+     * Set propertyOwnerEmail
+     *
+     * @param string $propertyOwnerEmail
+     *
+     * @return Property
+     */
+    public function setPropertyOwnerEmail($propertyOwnerEmail)
+    {
+        $this->property_owner_email = $propertyOwnerEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyOwnerEmail
+     *
+     * @return string
+     */
+    public function getPropertyOwnerEmail()
+    {
+        return $this->property_owner_email;
+    }
+
+    /**
+     * Set propertyAvailable
+     *
+     * @param integer $propertyAvailable
+     *
+     * @return Property
+     */
+    public function setPropertyAvailable($propertyAvailable)
+    {
+        $this->property_available = $propertyAvailable;
+
+        return $this;
+    }
+
+    /**
+     * Get propertyAvailable
+     *
+     * @return integer
+     */
+    public function getPropertyAvailable()
+    {
+        return $this->property_available;
+    }
+}

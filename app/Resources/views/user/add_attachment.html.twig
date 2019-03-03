@@ -1,0 +1,101 @@
+{% extends 'user.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ page_header }}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row"> 
+        <div class="col-md-4"> 
+            <h2>Add Document</h2>
+            {% if create_msg %}
+                    <div class="alert alert-info" role="alert">
+                        {{ create_msg }}
+                    </div>
+            {% endif%}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(form) }}
+                </div>
+            {% elseif errors%}
+                {%  for error in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">Course Title</label>
+                {% if form_errors(form.course_id) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.course_id) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.course_id, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Document</label>
+                {% if form_errors(form.attachment) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.attachment) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.attachment) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Document Description</label>
+                {% if form_errors(form.attachment_desc) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.attachment_desc) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.attachment_desc, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            {{ form_widget(form.update, {'attr': {'style' : 'visibility:hidden'}}) }}
+        {{ form_end(form) }}
+        </div>
+        
+        <div class="col-md-8">
+            {% if attachments %}
+                <br>
+                <h4>All Course Documents</h4>
+            
+                <table class="table table-striped">
+                    <tr>
+                        <th>#</th>
+                        <th>Course Title</th>
+                        <th>Document</th>
+                        <th>Document Description</th>
+                        <th>Action</th>
+                    <tr>
+                    {% set num = 0 %}
+                    {% for attach in attachments %}
+                    <tr>
+                        {% set num=num+1  %}
+                        <td>{{ num }}</td>
+                        {% for course in courses %}
+                            {% if attach.getCourseId == course.getCourseId %}
+                                <td>{{course.getCourseTitle}}</td>
+                            {% endif %}
+                        {% endfor %}
+                        <td title='Click to download'><a href='{{asset(['uploads/',attach.getAttachment]|join)}}'>{{attach.getAttachment}}</a></td>
+                        <td>{{attach.getAttachmentDesc}}</td>
+                        
+                        <td>
+                            <a class="btn btn-primary" href="{{url("edit_documents", {'edit': attach.getAttachmentId })}}">Edit</a>
+                            <a class="btn btn-danger" onclick='goto2("{{url("delete_attachment", {'delete': attach.getAttachmentId })}}")' id='delete_attachment'>Delete</a>
+                        </td>
+                    </tr>      
+                    {% endfor %}
+                </table>
+            {%else%}
+                <h1 align="center">No documents yet!.</h1>
+            {% endif %}
+        </div>
+    </div>   
+{% endblock %}

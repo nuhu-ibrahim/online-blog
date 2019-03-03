@@ -1,0 +1,244 @@
+<?php
+// src/AppBundle/Entity/Sale.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="saletbl")
+*/
+class Sale
+
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $sale_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    */
+    private $request_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your firstname name.")
+    */
+    private $client_first_name;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your last name.")
+    */
+    
+    private $client_last_name;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $order_title;
+    
+    /**
+    * @ORM\Column(type="integer")
+    * @Assert\NotBlank(message = "Provide the quantity.")
+    * @Assert\GreaterThan(0, message = "Input value should be numeric and greater than 0.")
+    */
+    private $quantity;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $amount;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide the delivery agent full name.")
+    */
+    private $delivery_agent;
+   
+    /**
+    * @ORM\Column(type="datetime")
+    */
+    private $time_of_delivery;
+
+    /**
+     * Get saleId
+     *
+     * @return integer
+     */
+    public function getSaleId()
+    {
+        return $this->sale_id;
+    }
+
+    /**
+     * Set requestId
+     *
+     * @param integer $requestId
+     *
+     * @return Sale
+     */
+    public function setRequestId($requestId)
+    {
+        $this->request_id = $requestId;
+
+        return $this;
+    }
+
+    /**
+     * Get requestId
+     *
+     * @return integer
+     */
+    public function getRequestId()
+    {
+        return $this->request_id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Sale
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param string $amount
+     *
+     * @return Sale
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set deliveryAgent
+     *
+     * @param string $deliveryAgent
+     *
+     * @return Sale
+     */
+    public function setDeliveryAgent($deliveryAgent)
+    {
+        $this->delivery_agent = $deliveryAgent;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryAgent
+     *
+     * @return string
+     */
+    public function getDeliveryAgent()
+    {
+        return $this->delivery_agent;
+    }
+
+    /**
+     * Set timeOfDelivery
+     *
+     * @param \DateTime $timeOfDelivery
+     *
+     * @return Sale
+     */
+    public function setTimeOfDelivery($timeOfDelivery)
+    {
+        $this->time_of_delivery = $timeOfDelivery;
+
+        return $this;
+    }
+
+    /**
+     * Get timeOfDelivery
+     *
+     * @return \DateTime
+     */
+    public function getTimeOfDelivery()
+    {
+        return $this->time_of_delivery;
+    }
+
+    /**
+     * Set clientFirstName
+     *
+     * @param string $clientFirstName
+     *
+     * @return Sale
+     */
+    public function setClientFirstName($clientFirstName)
+    {
+        $this->client_first_name = $clientFirstName;
+
+        return $this;
+    }
+
+    /**
+     * Get clientFirstName
+     *
+     * @return string
+     */
+    public function getClientFirstName()
+    {
+        return $this->client_first_name;
+    }
+
+    /**
+     * Set clientLastName
+     *
+     * @param string $clientLastName
+     *
+     * @return Sale
+     */
+    public function setClientLastName($clientLastName)
+    {
+        $this->client_last_name = $clientLastName;
+
+        return $this;
+    }
+
+    /**
+     * Get clientLastName
+     *
+     * @return string
+     */
+    public function getClientLastName()
+    {
+        return $this->client_last_name;
+    }
+}

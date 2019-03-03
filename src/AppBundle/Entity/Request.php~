@@ -1,0 +1,83 @@
+<?php
+// src/AppBundle/Entity/Category.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="requesttbl")
+*/
+class Request
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $request_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your full name")
+    */
+    private $client_name;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your email")
+     * 
+    */
+    private $client_email;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your mobile number")
+    */
+    private $client_mobile;
+    
+    /**
+    * @ORM\Column(type="string", length=1000)
+     * @Assert\NotBlank(message = "Kindly write a message")
+    */
+    private $client_msg;
+    
+     /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $post_status;
+    
+    /**
+     * Get categoryId
+     *
+     * @return integer
+     */
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    /**
+     * Set categoryTitle
+     *
+     * @param string $categoryTitle
+     *
+     * @return Category
+     */
+    public function setCategoryTitle($categoryTitle)
+    {
+        $this->category_title = $categoryTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryTitle
+     *
+     * @return string
+     */
+    public function getCategoryTitle()
+    {
+        return $this->category_title;
+    }
+}

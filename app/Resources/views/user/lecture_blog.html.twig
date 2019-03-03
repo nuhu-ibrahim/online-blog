@@ -1,0 +1,129 @@
+{% extends 'user.html.twig' %}
+{% block body %}  
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="top_menu">
+                    <div class="title">
+                        Lecture Discussion
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 style='color: blue;'>{{course.getCourseCode}}: {{course.getCourseTitle}}</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p>{{attachment.getAttachmentDesc}}</p>
+                    </div>
+                    <div class="panel-footer">
+                        <a href='{{asset(['uploads/',attachment.getAttachment]|join)}}'>Click here to download!</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div  class="col-md-10 col-md-offset-1">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="form-group">
+                            {% if form_errors(form.message_content) %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ form_errors(form.message_content) }}
+                                </div>
+                            {% endif %}
+                            {{ form_widget(form.message_content, {'attr': {'class':'form-control', 'placeholder':'Type your message here...'}}) }}  
+                        </div>
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }} 
+                {{ form_end(form) }}
+                <ul id='lecture_blog' class="messages">
+                    {% set group_id = 0 %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% set group_id = message.getGroupId %}
+                            {% if (student != null and message.getMessageSenderId == student.getStudentId and message.getSenderType == 1) or (lecturer != null and message.getMessageSenderId == lecturer.getLecturerId and message.getSenderType == 2) %}
+                                <li class="message left appeared">
+                                    <!--put image here-->
+                                    {% if user.role == "ROLE_STUDENT" %}
+                                        <div class="avatar">
+                                            <img title="You, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",student.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                                        </div>
+
+                                        <div class="text_wrapper">
+                                            <div class="text">
+                                                {{message.getMessageContent}}
+                                            </div>
+                                        </div>
+                                    {% elseif user.role == "ROLE_LECTURER" %}
+                                        <div class="avatar">
+                                            <img title="You, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",lecturer.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                                        </div>
+
+                                        <div class="text_wrapper">
+                                            <div class="text">
+                                                {{message.getMessageContent}}
+                                            </div>
+                                        </div>
+                                    {% endif%}
+
+                                </li>
+                            {% elseif message.getSenderType == 1 %}
+                                <li class="message right appeared">
+                                    <!--put image here-->
+                                    {% for stu in students %}
+                                        {% if message.getMessageSenderId == stu.getStudentId %}
+                                            <div class="avatar">
+                                                <img title="{{stu.getFirstname}} {{stu.getSurname}}, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",stu.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="text_wrapper">
+                                        <div class="text">
+                                            {{message.getMessageContent}}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% elseif message.getSenderType == 2 %}
+                                <li class="message right appeared">
+                                    <!--put image here-->
+                                    {% for lecturer in lecturers %}
+                                        {% if message.getMessageSenderId == lecturer.getLecturerId %}
+                                            <div class="avatar">
+                                                <img title="Lecturer {{lecturer.getFirstname}} {{lecturer.getSurname}}, Posted on {{message.getMessageDate.format("M d, Y \\a\\t H : i A")}}" src='{{asset(["passports/",lecturer.getPassport]|join)}}' class='img-circle' height='60' width='60'>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="text_wrapper">
+                                        <div class="text">
+                                            {{message.getMessageContent}}
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {%else%}
+                        <li><h2 align='center'>Your Conversations will appear here.</h2><li>
+                    {% endif %}
+                </ul>
+            </div>  
+        </div>
+    <script src="{{asset("bower_components/jquery/dist/jquery.min.js")}}"></script>
+    <script>
+        $.ajaxSetup({
+            cache: false
+        });
+        (function worker3(){
+            $.ajax({
+                url: '{{url("reload3", {'group_id': group_id })}}',
+                success: function(data){
+                  $('#lecture_blog').html(data);
+                },
+                complete: function(){
+                    setTimeout(worker3, 5000);
+                }
+            });
+        })();
+    </script>
+
+{% endblock %}

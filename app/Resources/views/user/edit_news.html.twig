@@ -1,0 +1,110 @@
+{% extends 'user.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ page_header }}
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row"> 
+        <div class="col-md-6"> 
+            <h2>Edit News or Information</h2>
+            {% if update_msg %}
+                    <div class="alert alert-info" role="alert">
+                        {{ update_msg }}
+                    </div>
+            {% endif%}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {% if form_errors(form) %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(form) }}
+                </div>
+            {% elseif errors%}
+                {%  for error in errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="exampleInputEmail1">News Title</label>
+                {% if form_errors(form.news_title) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.news_title) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.news_title, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">News Content</label>
+                {% if form_errors(form.news_content) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.news_content) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.news_content, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">News Status</label>
+                {% if form_errors(form.news_status) %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(form.news_status) }}
+                    </div>
+                {% endif %}
+                {{ form_widget(form.news_status, {'attr': {'class': 'form-control'}}) }}  
+            </div>
+            {{ form_widget(form.update, {'attr': {'class': 'btn btn-primary'}}) }}  
+            {{ form_widget(form.submit, {'attr': {'style' : 'visibility:hidden'}}) }}
+        {{ form_end(form) }}
+        </div>
+        
+        <div class="col-md-6">
+            <form method='POST' action=''>
+                <div class="form-group">
+                    <label>Search News</label>
+                    <select name='search' class='form-control'>
+                        <option value=''>All News</option>
+                        <option value='Drafted'>Drafted</option>
+                        <option value='Published'>Published</option>
+                    </select>
+                </div>
+                <input type="submit" name="submit" value="Search News" class='btn btn-primary'> 
+            </form>
+            {% if news %}
+                <br>
+                <h4>{{search}} News</h4>
+            
+                <table class="table table-striped">
+                    <tr>
+                            <th>#</th>
+                            <th>News Title</th>
+                            <th>News Author</th>
+                            <th>News Date</th>
+                            <th>News Status</th>
+                            <th>Action</th>
+                    <tr>
+                        {% set num = 0 %}
+                        {% for new in news %}
+                        <tr>
+                            {% set num=num+1  %}
+                            <td>{{ num }}</td>
+                            <td>{{new.getNewsTitle}}</td>
+                            <td>{{new.getNewsAuthor}}</td>
+                            <td>{{new.getNewsDate.format("M d, Y \\a\\t H : i A")}}</td>
+                            <td>{{new.getNewsStatus}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{url("edit_news", {'edit': new.getNewsId })}}">Edit</a>
+                                <a class="btn btn-danger" onclick='goto6("{{url("delete_news", {'delete': new.getNewsId })}}")' id='delete_category'  href='#'>Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            {%else%}
+                <h1 align="center">No news yet!.</h1>
+            {% endif %}
+        </div>
+    </div>   
+{% endblock %}

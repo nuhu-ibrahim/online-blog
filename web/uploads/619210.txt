@@ -1,0 +1,342 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jun 09, 2018 at 04:55 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `abudevs`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_about`
+--
+
+CREATE TABLE `tbl_about` (
+  `about` text NOT NULL,
+  `mission` text NOT NULL,
+  `vision` text NOT NULL,
+  `goals` text NOT NULL,
+  `membership` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_admin`
+--
+
+CREATE TABLE `tbl_admin` (
+  `admin_id` int(11) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_admin`
+--
+
+INSERT INTO `tbl_admin` (`admin_id`, `username`, `password`) VALUES
+(1, 'admin', '1234'),
+(2, 'jboy', '1234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_department`
+--
+
+CREATE TABLE `tbl_department` (
+  `department_id` int(11) NOT NULL,
+  `department` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_department`
+--
+
+INSERT INTO `tbl_department` (`department_id`, `department`) VALUES
+(2, 'Computer Engineering'),
+(1, 'Computer Science');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_excos`
+--
+
+CREATE TABLE `tbl_excos` (
+  `excos_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `session_id` int(11) NOT NULL,
+  `position_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_excos`
+--
+
+INSERT INTO `tbl_excos` (`excos_id`, `member_id`, `session_id`, `position_id`) VALUES
+(1, 1, 1, 1),
+(2, 2, 1, 2),
+(3, 3, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_hall_of_fame`
+--
+
+CREATE TABLE `tbl_hall_of_fame` (
+  `id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_members`
+--
+
+CREATE TABLE `tbl_members` (
+  `member_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `gender` varchar(10) NOT NULL,
+  `regno` varchar(20) NOT NULL,
+  `dept` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_members`
+--
+
+INSERT INTO `tbl_members` (`member_id`, `name`, `gender`, `regno`, `dept`, `email`, `phone`) VALUES
+(12, 'Nuhu Ibrahim', 'Male', 'U15CS2021', '1', 'contactnuhuibrahim@gmail.com', '07061151982'),
+(13, 'Nuhu Ibrahim', 'Male', 'U15CS2022', '2', 'contactnuhuibrahi@gmail.com', '07061151983');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_news`
+--
+
+CREATE TABLE `tbl_news` (
+  `news_id` int(11) NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `content` text NOT NULL,
+  `show_latest` enum('Show','Hide') NOT NULL DEFAULT 'Hide'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_nomination`
+--
+
+CREATE TABLE `tbl_nomination` (
+  `nominee_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `previous_post` text NOT NULL,
+  `cv` text NOT NULL,
+  `position_id` int(11) NOT NULL,
+  `date_submitted` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_position`
+--
+
+CREATE TABLE `tbl_position` (
+  `position_id` int(11) NOT NULL,
+  `position` varchar(50) NOT NULL,
+  `status` enum('Active','Disabled') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_position`
+--
+
+INSERT INTO `tbl_position` (`position_id`, `position`, `status`) VALUES
+(1, 'President', 'Active'),
+(2, 'Secretary General', 'Active'),
+(3, 'Project Manager', 'Active'),
+(4, 'Organizing Secretary', 'Active'),
+(5, 'Financial Secretary', 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_session`
+--
+
+CREATE TABLE `tbl_session` (
+  `session_id` int(11) NOT NULL,
+  `session` varchar(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_session`
+--
+
+INSERT INTO `tbl_session` (`session_id`, `session`) VALUES
+(1, '2016/2017'),
+(2, '2017/2018');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_slider`
+--
+
+CREATE TABLE `tbl_slider` (
+  `slider_id` int(11) NOT NULL,
+  `url` varchar(300) NOT NULL,
+  `display` enum('Show','Hide') NOT NULL DEFAULT 'Show'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbl_admin`
+--
+ALTER TABLE `tbl_admin`
+  ADD PRIMARY KEY (`admin_id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `tbl_department`
+--
+ALTER TABLE `tbl_department`
+  ADD PRIMARY KEY (`department_id`),
+  ADD UNIQUE KEY `department` (`department`);
+
+--
+-- Indexes for table `tbl_excos`
+--
+ALTER TABLE `tbl_excos`
+  ADD PRIMARY KEY (`excos_id`);
+
+--
+-- Indexes for table `tbl_hall_of_fame`
+--
+ALTER TABLE `tbl_hall_of_fame`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_members`
+--
+ALTER TABLE `tbl_members`
+  ADD PRIMARY KEY (`member_id`),
+  ADD KEY `member_id` (`member_id`);
+
+--
+-- Indexes for table `tbl_news`
+--
+ALTER TABLE `tbl_news`
+  ADD PRIMARY KEY (`news_id`);
+
+--
+-- Indexes for table `tbl_nomination`
+--
+ALTER TABLE `tbl_nomination`
+  ADD PRIMARY KEY (`nominee_id`);
+
+--
+-- Indexes for table `tbl_position`
+--
+ALTER TABLE `tbl_position`
+  ADD PRIMARY KEY (`position_id`),
+  ADD UNIQUE KEY `position` (`position`);
+
+--
+-- Indexes for table `tbl_session`
+--
+ALTER TABLE `tbl_session`
+  ADD PRIMARY KEY (`session_id`),
+  ADD UNIQUE KEY `session` (`session`);
+
+--
+-- Indexes for table `tbl_slider`
+--
+ALTER TABLE `tbl_slider`
+  ADD PRIMARY KEY (`slider_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tbl_admin`
+--
+ALTER TABLE `tbl_admin`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `tbl_department`
+--
+ALTER TABLE `tbl_department`
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `tbl_excos`
+--
+ALTER TABLE `tbl_excos`
+  MODIFY `excos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `tbl_hall_of_fame`
+--
+ALTER TABLE `tbl_hall_of_fame`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_members`
+--
+ALTER TABLE `tbl_members`
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `tbl_news`
+--
+ALTER TABLE `tbl_news`
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_nomination`
+--
+ALTER TABLE `tbl_nomination`
+  MODIFY `nominee_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_position`
+--
+ALTER TABLE `tbl_position`
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `tbl_session`
+--
+ALTER TABLE `tbl_session`
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `tbl_slider`
+--
+ALTER TABLE `tbl_slider`
+  MODIFY `slider_id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

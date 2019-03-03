@@ -1,0 +1,299 @@
+<?php
+// src/AppBundle/Entity/ClientRequest.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+/**
+* @ORM\Entity
+* @ORM\Table(name="requesttbl")
+*/
+class ClientRequest
+
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $request_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    */
+    private $order_id;
+    
+    /**
+    * @ORM\Column(type="text")
+    * @Assert\NotBlank(message = "Provide the delivery address.")
+    */
+    private $delivery_address;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank(message = "Provide the quantity of food items required.")
+    */
+    private $quantity;
+   
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your firstname name.")
+    */
+    private $client_first_name;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your last name.")
+    */
+    private $client_last_name;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your email.")
+     * @Assert\Email(message = "Provide a valid email address.")
+    */
+    
+    private $client_email;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "Provide your mobile number.")
+    */
+    private $client_mobile;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+    */
+    private $request_status;
+
+    /**
+    * @ORM\Column(type="date")
+    */
+    private $request_date;
+
+    /**
+     * Get requestId
+     *
+     * @return integer
+     */
+    public function getRequestId()
+    {
+        return $this->request_id;
+    }
+
+    /**
+     * Set orderId
+     *
+     * @param integer $orderId
+     *
+     * @return ClientRequest
+     */
+    public function setOrderId($orderId)
+    {
+        $this->order_id = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * Get orderId
+     *
+     * @return integer
+     */
+    public function getOrderId()
+    {
+        return $this->order_id;
+    }
+
+    /**
+     * Set deliveryAddress
+     *
+     * @param string $deliveryAddress
+     *
+     * @return ClientRequest
+     */
+    public function setDeliveryAddress($deliveryAddress)
+    {
+        $this->delivery_address = $deliveryAddress;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryAddress
+     *
+     * @return string
+     */
+    public function getDeliveryAddress()
+    {
+        return $this->delivery_address;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param string $quantity
+     *
+     * @return ClientRequest
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return string
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set clientFirstName
+     *
+     * @param string $clientFirstName
+     *
+     * @return ClientRequest
+     */
+    public function setClientFirstName($clientFirstName)
+    {
+        $this->client_first_name = $clientFirstName;
+
+        return $this;
+    }
+
+    /**
+     * Get clientFirstName
+     *
+     * @return string
+     */
+    public function getClientFirstName()
+    {
+        return $this->client_first_name;
+    }
+
+    /**
+     * Set clientLastName
+     *
+     * @param string $clientLastName
+     *
+     * @return ClientRequest
+     */
+    public function setClientLastName($clientLastName)
+    {
+        $this->client_last_name = $clientLastName;
+
+        return $this;
+    }
+
+    /**
+     * Get clientLastName
+     *
+     * @return string
+     */
+    public function getClientLastName()
+    {
+        return $this->client_last_name;
+    }
+
+    /**
+     * Set clientEmail
+     *
+     * @param string $clientEmail
+     *
+     * @return ClientRequest
+     */
+    public function setClientEmail($clientEmail)
+    {
+        $this->client_email = $clientEmail;
+
+        return $this;
+    }
+
+    /**
+     * Get clientEmail
+     *
+     * @return string
+     */
+    public function getClientEmail()
+    {
+        return $this->client_email;
+    }
+
+    /**
+     * Set clientMobile
+     *
+     * @param string $clientMobile
+     *
+     * @return ClientRequest
+     */
+    public function setClientMobile($clientMobile)
+    {
+        $this->client_mobile = $clientMobile;
+
+        return $this;
+    }
+
+    /**
+     * Get clientMobile
+     *
+     * @return string
+     */
+    public function getClientMobile()
+    {
+        return $this->client_mobile;
+    }
+
+    /**
+     * Set requestStatus
+     *
+     * @param string $requestStatus
+     *
+     * @return ClientRequest
+     */
+    public function setRequestStatus($requestStatus)
+    {
+        $this->request_status = $requestStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get requestStatus
+     *
+     * @return string
+     */
+    public function getRequestStatus()
+    {
+        return $this->request_status;
+    }
+
+    /**
+     * Set requestDate
+     *
+     * @param \DateTime $requestDate
+     *
+     * @return ClientRequest
+     */
+    public function setRequestDate($requestDate)
+    {
+        $this->request_date = $requestDate;
+
+        return $this;
+    }
+
+    /**
+     * Get requestDate
+     *
+     * @return \DateTime
+     */
+    public function getRequestDate()
+    {
+        return $this->request_date;
+    }
+}

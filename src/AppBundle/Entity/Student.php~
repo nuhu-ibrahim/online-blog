@@ -1,0 +1,386 @@
+<?php
+// src/AppBundle/Entity/Student.php
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+/**
+* @ORM\Entity
+* @ORM\Table(name="studenttbl")
+* @UniqueEntity(fields="email", message="Email already taken.")
+* @UniqueEntity(fields="reg_no", message="Student registration number already exist.")
+*/
+class Student
+{
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $student_id;
+    
+    /**
+    * @ORM\Column(type="integer")
+    */
+    private $session_id;
+    
+    /**
+    * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(groups={"add","edit"},message="Provide student registration  number.")
+    */
+    private $reg_no;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"}, message="Provide student surname.")
+    */
+    private $surname;
+    
+    /**
+    * @ORM\Column(type="string", length=100, nullable=true)
+    */
+    private $othername;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Provide studdent firstname.")
+    */
+    private $firstname;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Provide student mobile number.")
+    */
+    private $mobile;
+    
+    /**
+    * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Provide student email address.")
+     * @Assert\Email(groups={"add","edit"}, message = "Provide a valid student email address.")
+    */
+    private $email;
+    
+    /**
+    * @ORM\Column(type="string")
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Provide student gender.")
+    */
+    private $sex;
+
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"},message = "Provide student marital status.")
+    */
+    private $mstatus;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Provide student residential address.")
+    */
+    private $address;
+    
+    /**
+    * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(groups={"add","edit"}, message = "Upload your passport.")
+     * @Assert\Image(groups={"add","edit"}, minWidth=150, maxWidth=200, minHeight=150, maxHeight=200)
+    */
+    private $passport;
+
+    /**
+     * Get studentId
+     *
+     * @return integer
+     */
+    public function getStudentId()
+    {
+        return $this->student_id;
+    }
+
+    /**
+     * Set sessionId
+     *
+     * @param integer $sessionId
+     *
+     * @return Student
+     */
+    public function setSessionId($sessionId)
+    {
+        $this->session_id = $sessionId;
+
+        return $this;
+    }
+
+    /**
+     * Get sessionId
+     *
+     * @return integer
+     */
+    public function getSessionId()
+    {
+        return $this->session_id;
+    }
+
+    /**
+     * Set regNo
+     *
+     * @param string $regNo
+     *
+     * @return Student
+     */
+    public function setRegNo($regNo)
+    {
+        $this->reg_no = $regNo;
+
+        return $this;
+    }
+
+    /**
+     * Get regNo
+     *
+     * @return string
+     */
+    public function getRegNo()
+    {
+        return $this->reg_no;
+    }
+
+    /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return Student
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set othername
+     *
+     * @param string $othername
+     *
+     * @return Student
+     */
+    public function setOthername($othername)
+    {
+        $this->othername = $othername;
+
+        return $this;
+    }
+
+    /**
+     * Get othername
+     *
+     * @return string
+     */
+    public function getOthername()
+    {
+        return $this->othername;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return Student
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set mobile
+     *
+     * @param string $mobile
+     *
+     * @return Student
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+
+        return $this;
+    }
+
+    /**
+     * Get mobile
+     *
+     * @return string
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Student
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Student
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set sex
+     *
+     * @param string $sex
+     *
+     * @return Student
+     */
+    public function setSex($sex)
+    {
+        $this->sex = $sex;
+
+        return $this;
+    }
+
+    /**
+     * Get sex
+     *
+     * @return string
+     */
+    public function getSex()
+    {
+        return $this->sex;
+    }
+
+    /**
+     * Set mstatus
+     *
+     * @param string $mstatus
+     *
+     * @return Student
+     */
+    public function setMstatus($mstatus)
+    {
+        $this->mstatus = $mstatus;
+
+        return $this;
+    }
+
+    /**
+     * Get mstatus
+     *
+     * @return string
+     */
+    public function getMstatus()
+    {
+        return $this->mstatus;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Student
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set passport
+     *
+     * @param string $passport
+     *
+     * @return Student
+     */
+    public function setPassport($passport)
+    {
+        $this->passport = $passport;
+
+        return $this;
+    }
+
+    /**
+     * Get passport
+     *
+     * @return string
+     */
+    public function getPassport()
+    {
+        return $this->passport;
+    }
+}
