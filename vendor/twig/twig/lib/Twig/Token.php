@@ -14,14 +14,12 @@
  * Represents a Token.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @final
  */
-class Twig_Token
+final class Twig_Token
 {
-    protected $value;
-    protected $type;
-    protected $lineno;
+    private $value;
+    private $type;
+    private $lineno;
 
     const EOF_TYPE = -1;
     const TEXT_TYPE = 0;
@@ -62,7 +60,7 @@ class Twig_Token
      *  * type and value (or array of possible values)
      *  * just value (or array of possible values) (NAME_TYPE is used as type)
      *
-     * @param array|int         $type   The type to test
+     * @param array|string|int  $type   The type to test
      * @param array|string|null $values The token value
      *
      * @return bool

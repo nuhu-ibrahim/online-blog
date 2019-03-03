@@ -49,8 +49,6 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
 
     /**
      * Sets a custom children builder.
-     *
-     * @param NodeBuilder $builder A custom NodeBuilder
      */
     public function setBuilder(NodeBuilder $builder)
     {
@@ -70,7 +68,7 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
     /**
      * Sets a prototype for child nodes.
      *
-     * @param string $type the type of node
+     * @param string $type The type of node
      *
      * @return NodeDefinition
      */
@@ -154,9 +152,9 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
     /**
      * Adds children with a default value when none are defined.
      *
-     * @param int|string|array|null $children The number of children|The child name|The children names to be added
-     *
      * This method is applicable to prototype nodes only.
+     *
+     * @param int|string|array|null $children The number of children|The child name|The children names to be added
      *
      * @return $this
      */
@@ -378,8 +376,6 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
      *         ->append($this->getBarNodeDefinition())
      *     ;
      *
-     * @param NodeDefinition $node A NodeDefinition instance
-     *
      * @return $this
      */
     public function append(NodeDefinition $node)
@@ -476,8 +472,6 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
     /**
      * Validate the configuration of a concrete node.
      *
-     * @param ArrayNode $node The related node
-     *
      * @throws InvalidDefinitionException
      */
     protected function validateConcreteNode(ArrayNode $node)
@@ -511,8 +505,6 @@ class ArrayNodeDefinition extends NodeDefinition implements ParentNodeDefinition
 
     /**
      * Validate the configuration of a prototype node.
-     *
-     * @param PrototypedArrayNode $node The related node
      *
      * @throws InvalidDefinitionException
      */

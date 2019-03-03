@@ -146,13 +146,18 @@ class WebServer
     private function createServerProcess(WebServerConfig $config)
     {
         $finder = new PhpExecutableFinder();
-        if (false === $binary = $finder->find()) {
+        if (false === $binary = $finder->find(false)) {
             throw new \RuntimeException('Unable to find the PHP binary.');
         }
 
-        $process = new Process(array($binary, '-S', $config->getAddress(), $config->getRouter()));
+        $process = new Process(array_merge(array($binary), $finder->findArguments(), array('-dvariables_order=EGPCS', '-S', $config->getAddress(), $config->getRouter())));
         $process->setWorkingDirectory($config->getDocumentRoot());
         $process->setTimeout(null);
+
+        if (in_array('APP_ENV', explode(',', getenv('SYMFONY_DOTENV_VARS')))) {
+            $process->setEnv(array('APP_ENV' => false));
+            $process->inheritEnvironmentVariables();
+        }
 
         return $process;
     }

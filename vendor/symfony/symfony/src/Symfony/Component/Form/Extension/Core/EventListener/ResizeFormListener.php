@@ -24,35 +24,20 @@ use Symfony\Component\Form\FormInterface;
  */
 class ResizeFormListener implements EventSubscriberInterface
 {
-    /**
-     * @var string
-     */
     protected $type;
-
-    /**
-     * @var array
-     */
     protected $options;
-
-    /**
-     * Whether children could be added to the group.
-     *
-     * @var bool
-     */
     protected $allowAdd;
-
-    /**
-     * Whether children could be removed from the group.
-     *
-     * @var bool
-     */
     protected $allowDelete;
 
-    /**
-     * @var bool
-     */
     private $deleteEmpty;
 
+    /**
+     * @param string $type
+     * @param array  $options
+     * @param bool   $allowAdd    Whether children could be added to the group
+     * @param bool   $allowDelete Whether children could be removed from the group
+     * @param bool   $deleteEmpty
+     */
     public function __construct($type, array $options = array(), $allowAdd = false, $allowDelete = false, $deleteEmpty = false)
     {
         $this->type = $type;
@@ -104,7 +89,7 @@ class ResizeFormListener implements EventSubscriberInterface
         $data = $event->getData();
 
         if ($data instanceof \Traversable && $data instanceof \ArrayAccess) {
-            @trigger_error('Support for objects implementing both \Traversable and \ArrayAccess is deprecated since version 3.1 and will be removed in 4.0. Use an array instead.', E_USER_DEPRECATED);
+            @trigger_error('Support for objects implementing both \Traversable and \ArrayAccess is deprecated since Symfony 3.1 and will be removed in 4.0. Use an array instead.', E_USER_DEPRECATED);
         }
 
         if (!is_array($data) && !($data instanceof \Traversable && $data instanceof \ArrayAccess)) {

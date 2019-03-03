@@ -31,6 +31,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
     const OBJECT_TO_POPULATE = 'object_to_populate';
     const GROUPS = 'groups';
     const ATTRIBUTES = 'attributes';
+    const ALLOW_EXTRA_ATTRIBUTES = 'allow_extra_attributes';
 
     /**
      * @var int
@@ -69,9 +70,6 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
 
     /**
      * Sets the {@link ClassMetadataFactoryInterface} to use.
-     *
-     * @param ClassMetadataFactoryInterface|null $classMetadataFactory
-     * @param NameConverterInterface|null        $nameConverter
      */
     public function __construct(ClassMetadataFactoryInterface $classMetadataFactory = null, NameConverterInterface $nameConverter = null)
     {
@@ -82,7 +80,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
     /**
      * Set circular reference limit.
      *
-     * @param int $circularReferenceLimit limit of iterations for the same object
+     * @param int $circularReferenceLimit Limit of iterations for the same object
      *
      * @return self
      */
@@ -110,7 +108,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
     /**
      * Set normalization callbacks.
      *
-     * @param callable[] $callbacks help normalize the result
+     * @param callable[] $callbacks Help normalize the result
      *
      * @return self
      *
@@ -133,8 +131,6 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
 
     /**
      * Set ignored attributes for normalization and denormalization.
-     *
-     * @param array $ignoredAttributes
      *
      * @return self
      */
@@ -206,7 +202,14 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
      */
     protected function getAllowedAttributes($classOrObject, array $context, $attributesAsString = false)
     {
-        if (!$this->classMetadataFactory || !isset($context[static::GROUPS]) || !is_array($context[static::GROUPS])) {
+        if (!$this->classMetadataFactory) {
+            return false;
+        }
+
+        $groups = false;
+        if (isset($context[static::GROUPS]) && is_array($context[static::GROUPS])) {
+            $groups = $context[static::GROUPS];
+        } elseif (!isset($context[static::ALLOW_EXTRA_ATTRIBUTES]) || $context[static::ALLOW_EXTRA_ATTRIBUTES]) {
             return false;
         }
 
@@ -215,7 +218,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
             $name = $attributeMetadata->getName();
 
             if (
-                count(array_intersect($attributeMetadata->getGroups(), $context[static::GROUPS])) &&
+                (false === $groups || count(array_intersect($attributeMetadata->getGroups(), $groups))) &&
                 $this->isAllowedAttribute($classOrObject, $name, null, $context)
             ) {
                 $allowedAttributes[] = $attributesAsString ? $name : $attributeMetadata;
@@ -310,7 +313,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
             if (__CLASS__ !== get_class($this)) {
                 $r = new \ReflectionMethod($this, __FUNCTION__);
                 if (__CLASS__ !== $r->getDeclaringClass()->getName()) {
-                    @trigger_error(sprintf('Method %s::%s() will have a 6th `string $format = null` argument in version 4.0. Not defining it is deprecated since 3.2.', get_class($this), __FUNCTION__), E_USER_DEPRECATED);
+                    @trigger_error(sprintf('Method %s::%s() will have a 6th `string $format = null` argument in version 4.0. Not defining it is deprecated since Symfony 3.2.', get_class($this), __FUNCTION__), E_USER_DEPRECATED);
                 }
             }
 
@@ -337,7 +340,7 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
                 $paramName = $constructorParameter->name;
                 $key = $this->nameConverter ? $this->nameConverter->normalize($paramName) : $paramName;
 
-                $allowed = $allowedAttributes === false || in_array($paramName, $allowedAttributes);
+                $allowed = false === $allowedAttributes || in_array($paramName, $allowedAttributes);
                 $ignored = !$this->isAllowedAttribute($class, $paramName, $format, $context);
                 if (method_exists($constructorParameter, 'isVariadic') && $constructorParameter->isVariadic()) {
                     if ($allowed && !$ignored && (isset($data[$key]) || array_key_exists($key, $data))) {
@@ -399,6 +402,8 @@ abstract class AbstractNormalizer extends SerializerAwareNormalizer implements N
     {
         if (isset($parentContext[self::ATTRIBUTES][$attribute])) {
             $parentContext[self::ATTRIBUTES] = $parentContext[self::ATTRIBUTES][$attribute];
+        } else {
+            unset($parentContext[self::ATTRIBUTES]);
         }
 
         return $parentContext;

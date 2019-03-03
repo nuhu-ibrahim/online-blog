@@ -36,7 +36,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ContextListener implements ListenerInterface
 {
     private $tokenStorage;
-    private $contextKey;
     private $sessionKey;
     private $logger;
     private $userProviders;
@@ -58,7 +57,6 @@ class ContextListener implements ListenerInterface
 
         $this->tokenStorage = $tokenStorage;
         $this->userProviders = $userProviders;
-        $this->contextKey = $contextKey;
         $this->sessionKey = '_security_'.$contextKey;
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
@@ -67,8 +65,6 @@ class ContextListener implements ListenerInterface
 
     /**
      * Reads the Security Token from the session.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      */
     public function handle(GetResponseEvent $event)
     {
@@ -86,7 +82,7 @@ class ContextListener implements ListenerInterface
             return;
         }
 
-        $token = unserialize($token);
+        $token = $this->safelyUnserialize($token);
 
         if (null !== $this->logger) {
             $this->logger->debug('Read existing security token from the session.', array('key' => $this->sessionKey));
@@ -107,8 +103,6 @@ class ContextListener implements ListenerInterface
 
     /**
      * Writes the security token into the session.
-     *
-     * @param FilterResponseEvent $event A FilterResponseEvent instance
      */
     public function onKernelResponse(FilterResponseEvent $event)
     {
@@ -141,8 +135,6 @@ class ContextListener implements ListenerInterface
 
     /**
      * Refreshes the user by reloading it from the user provider.
-     *
-     * @param TokenInterface $token
      *
      * @return TokenInterface|null
      *
@@ -179,9 +171,48 @@ class ContextListener implements ListenerInterface
         }
 
         if ($userNotFoundByProvider) {
-            return;
+            return null;
         }
 
         throw new \RuntimeException(sprintf('There is no user provider for user "%s".', get_class($user)));
+    }
+
+    private function safelyUnserialize($serializedToken)
+    {
+        $e = $token = null;
+        $prevUnserializeHandler = ini_set('unserialize_callback_func', __CLASS__.'::handleUnserializeCallback');
+        $prevErrorHandler = set_error_handler(function ($type, $msg, $file, $line, $context = array()) use (&$prevErrorHandler) {
+            if (__FILE__ === $file) {
+                throw new \UnexpectedValueException($msg, 0x37313bc);
+            }
+
+            return $prevErrorHandler ? $prevErrorHandler($type, $msg, $file, $line, $context) : false;
+        });
+
+        try {
+            $token = unserialize($serializedToken);
+        } catch (\Error $e) {
+        } catch (\Exception $e) {
+        }
+        restore_error_handler();
+        ini_set('unserialize_callback_func', $prevUnserializeHandler);
+        if ($e) {
+            if (!$e instanceof \UnexpectedValueException || 0x37313bc !== $e->getCode()) {
+                throw $e;
+            }
+            if ($this->logger) {
+                $this->logger->warning('Failed to unserialize the security token from the session.', array('key' => $this->sessionKey, 'received' => $serializedToken, 'exception' => $e));
+            }
+        }
+
+        return $token;
+    }
+
+    /**
+     * @internal
+     */
+    public static function handleUnserializeCallback($class)
+    {
+        throw new \UnexpectedValueException('Class not found: '.$class, 0x37313bc);
     }
 }

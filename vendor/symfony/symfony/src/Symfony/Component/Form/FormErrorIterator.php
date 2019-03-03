@@ -33,26 +33,17 @@ class FormErrorIterator implements \RecursiveIterator, \SeekableIterator, \Array
 {
     /**
      * The prefix used for indenting nested error messages.
-     *
-     * @var string
      */
     const INDENTATION = '    ';
 
-    /**
-     * @var FormInterface
-     */
     private $form;
-
-    /**
-     * @var FormError[]|FormErrorIterator[]
-     */
     private $errors;
 
     /**
      * Creates a new iterator.
      *
-     * @param FormInterface $form   The erroneous form
-     * @param array         $errors The form errors
+     * @param FormInterface                   $form   The erroneous form
+     * @param FormError[]|FormErrorIterator[] $errors The form errors
      *
      * @throws InvalidArgumentException If the errors are invalid
      */
@@ -108,8 +99,8 @@ class FormErrorIterator implements \RecursiveIterator, \SeekableIterator, \Array
     /**
      * Returns the current element of the iterator.
      *
-     * @return FormError|FormErrorIterator An error or an iterator containing
-     *                                     nested errors.
+     * @return FormError|FormErrorIterator an error or an iterator containing
+     *                                     nested errors
      */
     public function current()
     {
@@ -271,7 +262,7 @@ class FormErrorIterator implements \RecursiveIterator, \SeekableIterator, \Array
      *
      * @param string|string[] $codes The codes to find
      *
-     * @return static New instance which contains only specific errors.
+     * @return static new instance which contains only specific errors
      */
     public function findByCodes($codes)
     {

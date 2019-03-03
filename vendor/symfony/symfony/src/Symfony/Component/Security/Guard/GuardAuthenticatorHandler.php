@@ -44,12 +44,10 @@ class GuardAuthenticatorHandler
 
     /**
      * Authenticates the given token in the system.
-     *
-     * @param TokenInterface $token
-     * @param Request        $request
      */
     public function authenticateWithToken(TokenInterface $token, Request $request)
     {
+        $this->migrateSession($request);
         $this->tokenStorage->setToken($token);
 
         if (null !== $this->dispatcher) {
@@ -135,5 +133,13 @@ class GuardAuthenticatorHandler
             get_class($guardAuthenticator),
             is_object($response) ? get_class($response) : gettype($response)
         ));
+    }
+
+    private function migrateSession(Request $request)
+    {
+        if (!$request->hasSession() || !$request->hasPreviousSession()) {
+            return;
+        }
+        $request->getSession()->migrate(true);
     }
 }

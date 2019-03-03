@@ -1,6 +1,40 @@
 UPGRADE FROM 3.x to 4.0
 =======================
 
+Symfony Framework
+-----------------
+
+The first step to upgrade a Symfony 3.x application to 4.x is to update the
+file and directory structure of your application:
+
+| Symfony 3.x                         | Symfony 4.x
+| ----------------------------------- | --------------------------------
+| `app/config/`                       | `config/`
+| `app/config/*.yml`                  | `config/*.yaml` and `config/packages/*.yaml`
+| `app/config/parameters.yml.dist`    | `config/services.yaml` and `.env.dist`
+| `app/config/parameters.yml`         | `config/services.yaml` and `.env`
+| `app/Resources/<BundleName>/views/` | `templates/bundles/<BundleName>/`
+| `app/Resources/`                    | `src/Resources/`
+| `app/Resources/assets/`             | `assets/`
+| `app/Resources/translations/`       | `translations/`
+| `app/Resources/views/`              | `templates/`
+| `src/AppBundle/`                    | `src/`
+| `var/logs/`                         | `var/log/`
+| `web/`                              | `public/`
+| `web/app.php`                       | `public/index.php`
+| `web/app_dev.php`                   | `public/index.php`
+
+Then, upgrade the contents of your console script and your front controller:
+
+* `bin/console`: https://github.com/symfony/recipes/blob/master/symfony/console/3.3/bin/console
+* `public/index.php`: https://github.com/symfony/recipes/blob/master/symfony/framework-bundle/3.3/public/index.php
+
+Lastly, read the following article to add Symfony Flex to your application and
+upgrade the configuration files: https://symfony.com/doc/current/setup/flex.html
+
+If you use Symfony components instead of the whole framework, you can find below
+the upgrading instructions for each individual bundle and component.
+
 ClassLoader
 -----------
 
@@ -116,8 +150,8 @@ DependencyInjection
 
  * Using unsupported options to configure service aliases raises an exception.
 
- * Setting or unsetting a private service with the `Container::set()` method is
-   no longer supported. Only public services can be set or unset.
+ * Setting or unsetting a service with the `Container::set()` method is
+   no longer supported. Only synthetic services can be set or unset.
 
  * Checking the existence of a private service with the `Container::has()`
    method is no longer supported and will return `false`.
@@ -222,9 +256,6 @@ Form
 
 FrameworkBundle
 ---------------
-
- * The `cache:clear` command does not warmup the cache anymore. Warmup should
-   be done via the `cache:warmup` command.
 
  * The "framework.trusted_proxies" configuration option and the corresponding "kernel.trusted_proxies" parameter have been removed. Use the `Request::setTrustedProxies()` method in your front controller instead.
 
@@ -363,12 +394,6 @@ HttpFoundation
 
 HttpKernel
 ----------
-
- * Removed the `kernel.root_dir` parameter. Use the `kernel.project_dir` parameter
-   instead.
-
- * Removed the `Kernel::getRootDir()` method. Use the `Kernel::getProjectDir()`
-   method instead.
 
  * The `Extension::addClassesToCompile()` and `Extension::getClassesToCompile()` methods have been removed.
 

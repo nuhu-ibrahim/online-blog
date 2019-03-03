@@ -43,12 +43,8 @@ abstract class CompleteConfigurationTest extends TestCase
 
         $expectedProviders = array(
             'security.user.provider.concrete.default',
-            'security.user.provider.concrete.default_foo',
             'security.user.provider.concrete.digest',
-            'security.user.provider.concrete.digest_foo',
             'security.user.provider.concrete.basic',
-            'security.user.provider.concrete.basic_foo',
-            'security.user.provider.concrete.basic_bar',
             'security.user.provider.concrete.service',
             'security.user.provider.concrete.chain',
         );
@@ -216,7 +212,7 @@ abstract class CompleteConfigurationTest extends TestCase
 
         $rules = array();
         foreach ($container->getDefinition('security.access_map')->getMethodCalls() as $call) {
-            if ($call[0] == 'add') {
+            if ('add' == $call[0]) {
                 $rules[] = array((string) $call[1][0], $call[1][1], $call[1][2]);
             }
         }
@@ -225,7 +221,7 @@ abstract class CompleteConfigurationTest extends TestCase
         foreach ($rules as list($matcherId, $attributes, $channel)) {
             $requestMatcher = $container->getDefinition($matcherId);
 
-            $this->assertFalse(isset($matcherIds[$matcherId]));
+            $this->assertArrayNotHasKey($matcherId, $matcherIds);
             $matcherIds[$matcherId] = true;
 
             $i = count($matcherIds);

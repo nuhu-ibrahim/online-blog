@@ -38,19 +38,8 @@ class PhpDocExtractor implements PropertyDescriptionExtractorInterface, Property
      */
     private $docBlocks = array();
 
-    /**
-     * @var DocBlockFactory
-     */
     private $docBlockFactory;
-
-    /**
-     * @var ContextFactory
-     */
     private $contextFactory;
-
-    /**
-     * @var PhpDocTypeHelper
-     */
     private $phpDocTypeHelper;
 
     public function __construct(DocBlockFactoryInterface $docBlockFactory = null)
@@ -217,7 +206,7 @@ class PhpDocExtractor implements PropertyDescriptionExtractorInterface, Property
      */
     private function getDocBlockFromMethod($class, $ucFirstProperty, $type)
     {
-        $prefixes = $type === self::ACCESSOR ? ReflectionExtractor::$accessorPrefixes : ReflectionExtractor::$mutatorPrefixes;
+        $prefixes = self::ACCESSOR === $type ? ReflectionExtractor::$accessorPrefixes : ReflectionExtractor::$mutatorPrefixes;
         $prefix = null;
 
         foreach ($prefixes as $prefix) {

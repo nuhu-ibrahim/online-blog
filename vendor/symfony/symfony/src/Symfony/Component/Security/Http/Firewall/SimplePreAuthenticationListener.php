@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Security\Http\Firewall;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -40,8 +41,6 @@ class SimplePreAuthenticationListener implements ListenerInterface
     private $dispatcher;
 
     /**
-     * Constructor.
-     *
      * @param TokenStorageInterface           $tokenStorage          A TokenStorageInterface instance
      * @param AuthenticationManagerInterface  $authenticationManager An AuthenticationManagerInterface instance
      * @param string                          $providerKey
@@ -65,8 +64,6 @@ class SimplePreAuthenticationListener implements ListenerInterface
 
     /**
      * Handles basic authentication.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      */
     public function handle(GetResponseEvent $event)
     {
@@ -89,6 +86,9 @@ class SimplePreAuthenticationListener implements ListenerInterface
             }
 
             $token = $this->authenticationManager->authenticate($token);
+
+            $this->migrateSession($request);
+
             $this->tokenStorage->setToken($token);
 
             if (null !== $this->dispatcher) {
@@ -122,5 +122,13 @@ class SimplePreAuthenticationListener implements ListenerInterface
                 throw new \UnexpectedValueException(sprintf('The %s::onAuthenticationSuccess method must return null or a Response object', get_class($this->simpleAuthenticator)));
             }
         }
+    }
+
+    private function migrateSession(Request $request)
+    {
+        if (!$request->hasSession() || !$request->hasPreviousSession()) {
+            return;
+        }
+        $request->getSession()->migrate(true);
     }
 }

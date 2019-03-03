@@ -18,30 +18,20 @@ use Symfony\Component\Security\Csrf\Exception\TokenNotFoundException;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class NativeSessionTokenStorage implements TokenStorageInterface
+class NativeSessionTokenStorage implements ClearableTokenStorageInterface
 {
     /**
      * The namespace used to store values in the session.
-     *
-     * @var string
      */
     const SESSION_NAMESPACE = '_csrf';
 
-    /**
-     * @var bool
-     */
     private $sessionStarted = false;
-
-    /**
-     * @var string
-     */
     private $namespace;
 
     /**
      * Initializes the storage with a session namespace.
      *
-     * @param string $namespace The namespace under which the token is stored
-     *                          in the session
+     * @param string $namespace The namespace under which the token is stored in the session
      */
     public function __construct($namespace = self::SESSION_NAMESPACE)
     {
@@ -104,6 +94,14 @@ class NativeSessionTokenStorage implements TokenStorageInterface
         unset($_SESSION[$this->namespace][$tokenId]);
 
         return $token;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clear()
+    {
+        unset($_SESSION[$this->namespace]);
     }
 
     private function startSession()

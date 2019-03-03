@@ -54,20 +54,17 @@ final class ServiceLocatorTagPass extends AbstractRecursivePass
 
         $value->setArguments($arguments);
 
-        if ($public = $value->isPublic()) {
-            $value->setPublic(false);
-        }
         $id = 'service_locator.'.md5(serialize($value));
 
         if ($isRoot) {
             if ($id !== $this->currentId) {
-                $this->container->setAlias($id, new Alias($this->currentId, $public));
+                $this->container->setAlias($id, new Alias($this->currentId, false));
             }
 
             return $value;
         }
 
-        $this->container->setDefinition($id, $value);
+        $this->container->setDefinition($id, $value->setPublic(false));
 
         return new Reference($id);
     }
@@ -81,6 +78,9 @@ final class ServiceLocatorTagPass extends AbstractRecursivePass
     public static function register(ContainerBuilder $container, array $refMap)
     {
         foreach ($refMap as $id => $ref) {
+            if (!$ref instanceof Reference) {
+                throw new InvalidArgumentException(sprintf('Invalid service locator definition: only services can be referenced, "%s" found for key "%s". Inject parameter values using constructors instead.', is_object($ref) ? get_class($ref) : gettype($ref), $id));
+            }
             $refMap[$id] = new ServiceClosureArgument($ref);
         }
         ksort($refMap);

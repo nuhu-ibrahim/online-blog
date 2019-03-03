@@ -17,21 +17,12 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\HttpKernel\Controller\ContainerControllerResolver;
 
 /**
- * ControllerResolver.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class ControllerResolver extends ContainerControllerResolver
 {
     protected $parser;
 
-    /**
-     * Constructor.
-     *
-     * @param ContainerInterface   $container A ContainerInterface instance
-     * @param ControllerNameParser $parser    A ControllerNameParser instance
-     * @param LoggerInterface      $logger    A LoggerInterface instance
-     */
     public function __construct(ContainerInterface $container, ControllerNameParser $parser, LoggerInterface $logger = null)
     {
         $this->parser = $parser;

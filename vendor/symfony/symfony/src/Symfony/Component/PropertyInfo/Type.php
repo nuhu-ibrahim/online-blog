@@ -29,6 +29,7 @@ class Type
     const BUILTIN_TYPE_ARRAY = 'array';
     const BUILTIN_TYPE_NULL = 'null';
     const BUILTIN_TYPE_CALLABLE = 'callable';
+    const BUILTIN_TYPE_ITERABLE = 'iterable';
 
     /**
      * List of PHP builtin types.
@@ -45,36 +46,14 @@ class Type
         self::BUILTIN_TYPE_ARRAY,
         self::BUILTIN_TYPE_CALLABLE,
         self::BUILTIN_TYPE_NULL,
+        self::BUILTIN_TYPE_ITERABLE,
     );
 
-    /**
-     * @var string
-     */
     private $builtinType;
-
-    /**
-     * @var bool
-     */
     private $nullable;
-
-    /**
-     * @var string|null
-     */
     private $class;
-
-    /**
-     * @var bool
-     */
     private $collection;
-
-    /**
-     * @var Type|null
-     */
     private $collectionKeyType;
-
-    /**
-     * @var Type|null
-     */
     private $collectionValueType;
 
     /**
@@ -104,7 +83,7 @@ class Type
     /**
      * Gets built-in type.
      *
-     * Can be bool, int, float, string, array, object, resource, null or callback.
+     * Can be bool, int, float, string, array, object, resource, null, callback or iterable.
      *
      * @return string
      */

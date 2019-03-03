@@ -29,9 +29,6 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class FormDataCollector extends DataCollector implements FormDataCollectorInterface
 {
-    /**
-     * @var FormDataExtractor
-     */
     private $dataExtractor;
 
     /**
@@ -85,9 +82,6 @@ class FormDataCollector extends DataCollector implements FormDataCollectorInterf
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        if (70000 <= \PHP_VERSION_ID && \PHP_VERSION_ID < 70008) {
-            @trigger_error('A bug in PHP 7.0.0 to 7.0.7 is breaking the Form panel, please upgrade to 7.0.8 or higher.', E_USER_DEPRECATED);
-        }
     }
 
     /**

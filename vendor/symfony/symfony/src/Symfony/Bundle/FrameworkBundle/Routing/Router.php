@@ -33,8 +33,6 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
     private $collectedParameters = array();
 
     /**
-     * Constructor.
-     *
      * @param ContainerInterface $container A ContainerInterface instance
      * @param mixed              $resource  The main resource to load
      * @param array              $options   An array of options
@@ -86,8 +84,6 @@ class Router extends BaseRouter implements WarmableInterface, ServiceSubscriberI
      * - the route host,
      * - the route schemes,
      * - the route methods.
-     *
-     * @param RouteCollection $collection
      */
     private function resolveParameters(RouteCollection $collection)
     {

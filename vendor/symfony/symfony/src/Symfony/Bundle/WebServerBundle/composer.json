@@ -16,10 +16,10 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": "^5.5.9|>=7.0.8",
         "symfony/console": "~3.3",
         "symfony/http-kernel": "~3.3",
-        "symfony/process": "~3.3"
+        "symfony/process": "~3.3.14|^3.4.2"
     },
     "autoload": {
         "psr-4": { "Symfony\\Bundle\\WebServerBundle\\": "" },
@@ -29,6 +29,10 @@
     },
     "conflict": {
         "symfony/dependency-injection": "<3.3"
+    },
+    "suggest": {
+        "symfony/monolog-bridge": "For using the log server.",
+        "symfony/expression-language": "For using the filter option of the log server."
     },
     "minimum-stability": "dev",
     "extra": {

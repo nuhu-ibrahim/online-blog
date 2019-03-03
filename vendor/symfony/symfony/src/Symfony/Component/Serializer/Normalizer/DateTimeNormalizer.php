@@ -24,9 +24,6 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     const FORMAT_KEY = 'datetime_format';
 
-    /**
-     * @var string
-     */
     private $format;
 
     /**
@@ -70,6 +67,10 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
     {
         $dateTimeFormat = isset($context[self::FORMAT_KEY]) ? $context[self::FORMAT_KEY] : null;
 
+        if ('' === $data || null === $data) {
+            throw new UnexpectedValueException('The data is either an empty string or null, you should pass a string that can be parsed with the passed format or a valid DateTime string.');
+        }
+
         if (null !== $dateTimeFormat) {
             $object = \DateTime::class === $class ? \DateTime::createFromFormat($dateTimeFormat, $data) : \DateTimeImmutable::createFromFormat($dateTimeFormat, $data);
 
@@ -111,8 +112,6 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
 
     /**
      * Formats datetime errors.
-     *
-     * @param array $errors
      *
      * @return string[]
      */

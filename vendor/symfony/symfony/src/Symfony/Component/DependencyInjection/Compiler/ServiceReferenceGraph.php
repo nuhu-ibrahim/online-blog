@@ -80,9 +80,9 @@ class ServiceReferenceGraph
      * Connects 2 nodes together in the Graph.
      *
      * @param string $sourceId
-     * @param string $sourceValue
+     * @param mixed  $sourceValue
      * @param string $destId
-     * @param string $destValue
+     * @param mixed  $destValue
      * @param string $reference
      * @param bool   $lazy
      */
@@ -94,11 +94,16 @@ class ServiceReferenceGraph
             if (__CLASS__ !== get_class($this)) {
                 $r = new \ReflectionMethod($this, __FUNCTION__);
                 if (__CLASS__ !== $r->getDeclaringClass()->getName()) {
-                    @trigger_error(sprintf('Method %s() will have a 6th `bool $lazy = false` argument in version 4.0. Not defining it is deprecated since 3.3.', __METHOD__), E_USER_DEPRECATED);
+                    @trigger_error(sprintf('Method %s() will have a 6th `bool $lazy = false` argument in version 4.0. Not defining it is deprecated since Symfony 3.3.', __METHOD__), E_USER_DEPRECATED);
                 }
             }
             $lazy = false;
         }
+
+        if (null === $sourceId || null === $destId) {
+            return;
+        }
+
         $sourceNode = $this->createNode($sourceId, $sourceValue);
         $destNode = $this->createNode($destId, $destValue);
         $edge = new ServiceReferenceGraphEdge($sourceNode, $destNode, $reference, $lazy);
@@ -111,7 +116,7 @@ class ServiceReferenceGraph
      * Creates a graph node.
      *
      * @param string $id
-     * @param string $value
+     * @param mixed  $value
      *
      * @return ServiceReferenceGraphNode
      */

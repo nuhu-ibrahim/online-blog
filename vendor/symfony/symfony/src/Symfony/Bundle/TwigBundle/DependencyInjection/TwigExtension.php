@@ -13,6 +13,7 @@ namespace Symfony\Bundle\TwigBundle\DependencyInjection;
 
 use Symfony\Bridge\Twig\Extension\WebLinkExtension;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Resource\FileExistenceResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -29,12 +30,6 @@ use Twig\Loader\LoaderInterface;
  */
 class TwigExtension extends Extension
 {
-    /**
-     * Responds to the twig configuration parameter.
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -99,6 +94,7 @@ class TwigExtension extends Extension
             }
         }
 
+        // paths are modified in ExtensionPass if forms are enabled
         $container->getDefinition('twig.cache_warmer')->replaceArgument(2, $config['paths']);
         $container->getDefinition('twig.template_iterator')->replaceArgument(2, $config['paths']);
 
@@ -118,9 +114,10 @@ class TwigExtension extends Extension
             }
         }
 
-        if ($container->fileExists($dir = $container->getParameter('kernel.root_dir').'/Resources/views', false)) {
+        if (file_exists($dir = $container->getParameter('kernel.root_dir').'/Resources/views')) {
             $twigFilesystemLoaderDefinition->addMethodCall('addPath', array($dir));
         }
+        $container->addResource(new FileExistenceResource($dir));
 
         if (!empty($config['globals'])) {
             $def = $container->getDefinition('twig');
@@ -178,13 +175,15 @@ class TwigExtension extends Extension
                 );
             }
 
-            if ($container->fileExists($dir = $container->getParameter('kernel.root_dir').'/Resources/'.$name.'/views', false)) {
+            if (file_exists($dir = $container->getParameter('kernel.root_dir').'/Resources/'.$name.'/views')) {
                 $bundleHierarchy[$name]['paths'][] = $dir;
             }
+            $container->addResource(new FileExistenceResource($dir));
 
-            if ($container->fileExists($dir = $bundle['path'].'/Resources/views', false)) {
+            if (file_exists($dir = $bundle['path'].'/Resources/views')) {
                 $bundleHierarchy[$name]['paths'][] = $dir;
             }
+            $container->addResource(new FileExistenceResource($dir));
 
             if (null === $bundle['parent']) {
                 continue;

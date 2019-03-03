@@ -20,8 +20,6 @@ class MainConfigurationTest extends TestCase
     /**
      * The minimal, required config needed to not have any required validation
      * issues.
-     *
-     * @var array
      */
     protected static $minimalConfig = array(
         'providers' => array(
@@ -86,9 +84,9 @@ class MainConfigurationTest extends TestCase
         $processor = new Processor();
         $configuration = new MainConfiguration(array(), array());
         $processedConfig = $processor->processConfiguration($configuration, array($config));
-        $this->assertTrue(isset($processedConfig['firewalls']['stub']['logout']['csrf_token_generator']));
+        $this->assertArrayHasKey('csrf_token_generator', $processedConfig['firewalls']['stub']['logout']);
         $this->assertEquals('a_token_generator', $processedConfig['firewalls']['stub']['logout']['csrf_token_generator']);
-        $this->assertTrue(isset($processedConfig['firewalls']['stub']['logout']['csrf_token_id']));
+        $this->assertArrayHasKey('csrf_token_id', $processedConfig['firewalls']['stub']['logout']);
         $this->assertEquals('a_token_id', $processedConfig['firewalls']['stub']['logout']['csrf_token_id']);
     }
 

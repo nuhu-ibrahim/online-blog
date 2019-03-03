@@ -31,7 +31,6 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
 {
     private $graph;
     private $currentDefinition;
-    private $repeatedPass;
     private $onlyConstructorArguments;
     private $lazy;
     private $expressionLanguage;
@@ -49,13 +48,11 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
      */
     public function setRepeatedPass(RepeatedPass $repeatedPass)
     {
-        $this->repeatedPass = $repeatedPass;
+        // no-op for BC
     }
 
     /**
      * Processes a ContainerBuilder object to populate the service reference graph.
-     *
-     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {

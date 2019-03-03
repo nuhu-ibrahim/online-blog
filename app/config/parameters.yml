@@ -1,14 +1,12 @@
-# This file is auto-generated during the composer install
 parameters:
-    database_host: localhost
+    database_host: 127.0.0.1
     database_port: null
     database_name: computer_sci_blog
     database_user: root
-    database_password: 
-    database_host: 127.0.0.1
+    database_password: null
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
-    secret: 03263ed0fe6e765ed2d3d6072513d633425c20c4
-    web_dir: "%kernel.root_dir%/../web"
+    secret: ebb04a3ce04c9e669205180713fed41bc2860b14
+

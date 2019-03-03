@@ -141,6 +141,8 @@ class UsernamePasswordJsonAuthenticationListener implements ListenerInterface
             $this->logger->info('User has been authenticated successfully.', array('username' => $token->getUsername()));
         }
 
+        $this->migrateSession($request);
+
         $this->tokenStorage->setToken($token);
 
         if (null !== $this->eventDispatcher) {
@@ -183,5 +185,13 @@ class UsernamePasswordJsonAuthenticationListener implements ListenerInterface
         }
 
         return $response;
+    }
+
+    private function migrateSession(Request $request)
+    {
+        if (!$request->hasSession() || !$request->hasPreviousSession()) {
+            return;
+        }
+        $request->getSession()->migrate(true);
     }
 }

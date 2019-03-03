@@ -308,12 +308,12 @@ class CompoundFormTest extends AbstractFormTest
 
         $this->form[] = $child;
 
-        $this->assertTrue(isset($this->form['foo']));
+        $this->assertArrayHasKey('foo', $this->form);
         $this->assertSame($child, $this->form['foo']);
 
         unset($this->form['foo']);
 
-        $this->assertFalse(isset($this->form['foo']));
+        $this->assertArrayNotHasKey('foo', $this->form);
     }
 
     public function testCountable()
@@ -1012,6 +1012,28 @@ class CompoundFormTest extends AbstractFormTest
         $this->form->submit(array());
 
         $this->assertSame($button, $this->form->getClickedButton());
+    }
+
+    public function testDisabledButtonIsNotSubmitted()
+    {
+        $button = new SubmitButtonBuilder('submit');
+        $submit = $button
+            ->setDisabled(true)
+            ->getForm();
+
+        $form = $this->createForm()
+            ->add($this->getBuilder('text')->getForm())
+            ->add($submit)
+        ;
+
+        $form->submit(array(
+            'text' => '',
+            'submit' => '',
+        ));
+
+        $this->assertTrue($submit->isDisabled());
+        $this->assertFalse($submit->isClicked());
+        $this->assertFalse($submit->isSubmitted());
     }
 
     protected function createForm()

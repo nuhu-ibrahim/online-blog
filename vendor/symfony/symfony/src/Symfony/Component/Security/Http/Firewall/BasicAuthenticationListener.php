@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Security\Http\Firewall;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
@@ -49,8 +50,6 @@ class BasicAuthenticationListener implements ListenerInterface
 
     /**
      * Handles basic authentication.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      */
     public function handle(GetResponseEvent $event)
     {
@@ -72,6 +71,9 @@ class BasicAuthenticationListener implements ListenerInterface
 
         try {
             $token = $this->authenticationManager->authenticate(new UsernamePasswordToken($username, $request->headers->get('PHP_AUTH_PW'), $this->providerKey));
+
+            $this->migrateSession($request);
+
             $this->tokenStorage->setToken($token);
         } catch (AuthenticationException $e) {
             $token = $this->tokenStorage->getToken();
@@ -89,5 +91,13 @@ class BasicAuthenticationListener implements ListenerInterface
 
             $event->setResponse($this->authenticationEntryPoint->start($request, $e));
         }
+    }
+
+    private function migrateSession(Request $request)
+    {
+        if (!$request->hasSession() || !$request->hasPreviousSession()) {
+            return;
+        }
+        $request->getSession()->migrate(true);
     }
 }

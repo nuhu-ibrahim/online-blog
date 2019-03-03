@@ -134,10 +134,13 @@ class ErrorHandler
             $handler = $prev[0];
             $replace = false;
         }
-        if ($replace || !$prev) {
-            $handler->setExceptionHandler(set_exception_handler(array($handler, 'handleException')));
-        } else {
+        if (!$replace && $prev) {
             restore_error_handler();
+        }
+        if (is_array($prev = set_exception_handler(array($handler, 'handleException'))) && $prev[0] === $handler) {
+            restore_exception_handler();
+        } else {
+            $handler->setExceptionHandler($prev);
         }
 
         $handler->throwAt(E_ALL & $handler->thrownErrors, true);
@@ -526,6 +529,7 @@ class ErrorHandler
             $exception = new FatalThrowableError($exception);
         }
         $type = $exception instanceof FatalErrorException ? $exception->getSeverity() : E_ERROR;
+        $handlerException = null;
 
         if (($this->loggedErrors & $type) || $exception instanceof FatalThrowableError) {
             if ($exception instanceof FatalErrorException) {
@@ -560,18 +564,20 @@ class ErrorHandler
                 }
             }
         }
-        if (empty($this->exceptionHandler)) {
-            throw $exception; // Give back $exception to the native handler
-        }
         try {
-            call_user_func($this->exceptionHandler, $exception);
+            if (null !== $this->exceptionHandler) {
+                return \call_user_func($this->exceptionHandler, $exception);
+            }
+            $handlerException = $handlerException ?: $exception;
         } catch (\Exception $handlerException) {
         } catch (\Throwable $handlerException) {
         }
-        if (isset($handlerException)) {
-            $this->exceptionHandler = null;
-            $this->handleException($handlerException);
+        $this->exceptionHandler = null;
+        if ($exception === $handlerException) {
+            self::$reservedMemory = null; // Disable the fatal error handler
+            throw $exception; // Give back $exception to the native handler
         }
+        $this->handleException($handlerException);
     }
 
     /**
@@ -587,15 +593,39 @@ class ErrorHandler
             return;
         }
 
-        self::$reservedMemory = null;
+        $handler = self::$reservedMemory = null;
+        $handlers = array();
+        $previousHandler = null;
+        $sameHandlerLimit = 10;
 
-        $handler = set_error_handler('var_dump');
-        $handler = is_array($handler) ? $handler[0] : null;
-        restore_error_handler();
+        while (!is_array($handler) || !$handler[0] instanceof self) {
+            $handler = set_exception_handler('var_dump');
+            restore_exception_handler();
 
-        if (!$handler instanceof self) {
+            if (!$handler) {
+                break;
+            }
+            restore_exception_handler();
+
+            if ($handler !== $previousHandler) {
+                array_unshift($handlers, $handler);
+                $previousHandler = $handler;
+            } elseif (0 === --$sameHandlerLimit) {
+                $handler = null;
+                break;
+            }
+        }
+        foreach ($handlers as $h) {
+            set_exception_handler($h);
+        }
+        if (!$handler) {
             return;
         }
+        if ($handler !== $h) {
+            $handler[0]->setExceptionHandler($h);
+        }
+        $handler = $handler[0];
+        $handlers = array();
 
         if ($exit = null === $error) {
             $error = error_get_last();
@@ -707,7 +737,7 @@ class ErrorHandler
         }
         if (!($throw || $this->scopedErrors & $type)) {
             for ($i = 0; isset($lightTrace[$i]); ++$i) {
-                unset($lightTrace[$i]['args']);
+                unset($lightTrace[$i]['args'], $lightTrace[$i]['object']);
             }
         }
 

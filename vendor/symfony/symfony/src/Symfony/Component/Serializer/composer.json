@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9"
+        "php": "^5.5.9|>=7.0.8"
     },
     "require-dev": {
         "symfony/yaml": "~3.3",
@@ -28,9 +28,10 @@
         "doctrine/annotations": "~1.0",
         "symfony/dependency-injection": "~3.2",
         "doctrine/cache": "~1.0",
-        "phpdocumentor/reflection-docblock": "~3.0"
+        "phpdocumentor/reflection-docblock": "^3.0|^4.0"
     },
     "conflict": {
+        "phpdocumentor/type-resolver": "<0.2.1",
         "symfony/dependency-injection": "<3.2",
         "symfony/property-access": ">=3.0,<3.0.4|>=2.8,<2.8.4",
         "symfony/property-info": "<3.1",

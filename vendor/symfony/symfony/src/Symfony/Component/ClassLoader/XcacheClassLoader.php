@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\ClassLoader;
 
-@trigger_error('The '.__NAMESPACE__.'\XcacheClassLoader class is deprecated since version 3.3 and will be removed in 4.0. Use `composer install --apcu-autoloader` instead.', E_USER_DEPRECATED);
+@trigger_error('The '.__NAMESPACE__.'\XcacheClassLoader class is deprecated since Symfony 3.3 and will be removed in 4.0. Use `composer install --apcu-autoloader` instead.', E_USER_DEPRECATED);
 
 /**
  * XcacheClassLoader implements a wrapping autoloader cached in XCache for PHP 5.3.
@@ -51,17 +51,9 @@ namespace Symfony\Component\ClassLoader;
 class XcacheClassLoader
 {
     private $prefix;
-
-    /**
-     * A class loader object that implements the findFile() method.
-     *
-     * @var object
-     */
     private $decorated;
 
     /**
-     * Constructor.
-     *
      * @param string $prefix    The XCache namespace prefix to use
      * @param object $decorated A class loader object that implements the findFile() method
      *
